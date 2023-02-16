@@ -1,13 +1,10 @@
-import os
 from flask import Flask
 from flask_cors import CORS
 
 import logging
-import constants.uploadFileConstants as constant
 from routes.modelRoutes import modelRoutesBP
 from routes.fileUploadRoutes import fileUploadRoutesBP
 from routes.reportRoutes import reportRoutesBP
-from services.yoloModels.fileUploads import *
 from services.fileUpload.sftpConnection import *
 
 
@@ -22,10 +19,9 @@ app.register_blueprint(modelRoutesBP)
 app.register_blueprint(fileUploadRoutesBP)
 app.register_blueprint(reportRoutesBP)
 
-
 @app.route('/status', methods=['GET'])
 def getStatus():
-    return "Visual Inspection API's are running"
+    return "Visual Inspection API's are runningggggg"
 
 
 if __name__ == "__main__":

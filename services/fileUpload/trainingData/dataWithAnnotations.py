@@ -1,27 +1,26 @@
 import os
+from datetime import datetime
 
 from werkzeug.utils import secure_filename
 
 from constants.mongoConstants import COLLECTION_FILE_UPLOAD_COUNTER, DB_VISUAL_INSPECTION, COLLECTION_FILE_UPLOAD_RECORD
 from constants.uploadFileConstants import INITIAL_UPLOAD_COUNTER, DATA_DIRECTORY, STATUS_FILE_UPLOADED
 from repository.mongoRepository import getData, updateData, insertData
-from datetime import datetime
-
-from services.fileUpload.sftpConnection import sendFile
 
 
-def uploadFiles(data, uploadTask):
-    fileList = data.files.getlist("imageFiles")
-    requestID = getFileUploadIDCounter(uploadTask)
-    saveRecord(requestID, uploadTask)
-    fileDirectory = getFileDirectory(uploadTask, requestID)
-    for fileElement in fileList:
-        filename = fileElement.filename
-        filename = secure_filename(filename)
-        destination = os.path.join(fileDirectory, filename)
-        fileElement.save(destination)
-        print(sendFile(destination))
-        return requestID
+def uploadTrainingDataWithAnnotations(data):
+    imageList = data.files.getlist("imageFiles")
+    annotationList = data.files.getlist("annotationFiles")
+    dataYamlFileList = data.files.getlist("dataYamlFile")
+    requestID = getFileUploadIDCounter("train")
+    saveRecord(requestID, "train")
+    imageFileDirectory = getFileDirectory("trainImage", requestID)
+    saveFileToDirectory(imageList, imageFileDirectory)
+    annotationFileDirectory = getFileDirectory("trainAnnotation", requestID)
+    saveFileToDirectory(annotationList, annotationFileDirectory)
+    dataYamlFileDirectory = getFileDirectory("dataYamlFile", requestID)
+    saveFileToDirectory(dataYamlFileList, dataYamlFileDirectory)
+    return requestID
 
 
 def getFileUploadIDCounter(uploadTask):
@@ -48,7 +47,10 @@ def getFileUploadIDCounter(uploadTask):
 
 def getFileDirectory(uploadTask, requestID):
     fileDirectory = DATA_DIRECTORY[uploadTask].format(requestID)
-    os.makedirs(fileDirectory)
+    try:
+        os.makedirs(fileDirectory)
+    except:
+        pass
     return fileDirectory
 
 
@@ -56,7 +58,16 @@ def saveRecord(requestID, uploadTask):
     recordDict = {
         'requestID': requestID,
         'datetime': datetime.now(),
+        'datetime': datetime.now(),
         'status': STATUS_FILE_UPLOADED
     }
     collectionName = COLLECTION_FILE_UPLOAD_RECORD[uploadTask]
     insertData(recordDict, collectionName, DB_VISUAL_INSPECTION)
+
+
+def saveFileToDirectory(fileList, fileDirectory):
+    for fileElement in fileList:
+        filename = fileElement.filename
+        filename = secure_filename(filename)
+        destination = os.path.join(fileDirectory, filename)
+        fileElement.save(destination)

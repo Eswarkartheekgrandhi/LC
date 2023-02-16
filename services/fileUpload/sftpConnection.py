@@ -10,7 +10,7 @@ cnopts = pysftp.CnOpts()
 cnopts.hostkeys = None
 
 
-def sendFile(dataDirectory):
+def sendFileThroughSFTP(dataDirectory):
     with pysftp.Connection(os.getenv("sftpServer"), username=os.getenv("sftpUsername"), password=os.getenv("sftpPassword"),
                            cnopts= cnopts) as sftp:
         print(sftp.put(dataDirectory))
