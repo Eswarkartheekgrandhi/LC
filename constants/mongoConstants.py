@@ -7,3 +7,5 @@ COLLECTION_FILE_UPLOAD_RECORD = {
     'train': 'modelTrainRequest',
     'test': 'modelTestRequest'
 }
+
+COLLECTION_USER = 'userDetails'
