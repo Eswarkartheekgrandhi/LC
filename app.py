@@ -2,11 +2,14 @@ from flask import Flask
 from flask_cors import CORS
 
 import logging
+
+from routes.imageManagementRoutes import imageManagementRoutesBP
 from routes.modelRoutes import modelRoutesBP
 from routes.fileUploadRoutes import fileUploadRoutesBP
 from routes.reportRoutes import reportRoutesBP
 from routes.userManagementRoutes import userManagementRoutesBP
 from services.fileUpload.sftpConnection import *
+from services.imageManagement.getThumbnailImages import *
 
 
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +23,7 @@ app.register_blueprint(modelRoutesBP)
 app.register_blueprint(fileUploadRoutesBP)
 app.register_blueprint(reportRoutesBP)
 app.register_blueprint(userManagementRoutesBP)
-
+app.register_blueprint(imageManagementRoutesBP)
 
 @app.route('/status', methods=['GET'])
 def getStatus():

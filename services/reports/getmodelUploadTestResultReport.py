@@ -5,7 +5,7 @@ import pandas as pd
 import xlsxwriter
 
 from constants.uploadFileConstants import DATA_DIRECTORY
-from constants.mongoConstants import COLLECTION_FILE_UPLOAD_RECORD, DB_VISUAL_INSPECTION
+from constants.mongoConstants import COLLECTION_FILE_UPLOAD_REQUEST_DETAILS, DB_VISUAL_INSPECTION
 from repository.mongoRepository import getData
 
 
@@ -19,7 +19,7 @@ def getResultData(testUploadID):
     identifier = {
         'requestID': testUploadID
     }
-    collectionName = COLLECTION_FILE_UPLOAD_RECORD['test']
+    collectionName = COLLECTION_FILE_UPLOAD_REQUEST_DETAILS
     detectionDF = pd.DataFrame(getData(identifier, collectionName, DB_VISUAL_INSPECTION))
     detailedReportDataDF = pd.DataFrame(detectionDF.loc[0, 'Detailed Report'])
     quickReportDataDF = pd.DataFrame(detectionDF.loc[0, 'Quick Report'])

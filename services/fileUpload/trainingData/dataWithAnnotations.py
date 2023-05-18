@@ -3,7 +3,7 @@ from datetime import datetime
 
 from werkzeug.utils import secure_filename
 
-from constants.mongoConstants import COLLECTION_FILE_UPLOAD_COUNTER, DB_VISUAL_INSPECTION, COLLECTION_FILE_UPLOAD_RECORD
+from constants.mongoConstants import COLLECTION_FILE_UPLOAD_COUNTER, DB_VISUAL_INSPECTION, COLLECTION_FILE_UPLOAD_REQUEST_DETAILS
 from constants.uploadFileConstants import INITIAL_UPLOAD_COUNTER, DATA_DIRECTORY, STATUS_FILE_UPLOADED
 from repository.mongoRepository import getData, updateData, insertData
 
@@ -61,7 +61,7 @@ def saveRecord(requestID, uploadTask):
         'datetime': datetime.now(),
         'status': STATUS_FILE_UPLOADED
     }
-    collectionName = COLLECTION_FILE_UPLOAD_RECORD[uploadTask]
+    collectionName = COLLECTION_FILE_UPLOAD_REQUEST_DETAILS
     insertData(recordDict, collectionName, DB_VISUAL_INSPECTION)
 
 

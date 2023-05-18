@@ -12,4 +12,15 @@ INITIAL_UPLOAD_COUNTER = {
 
 STATUS_FILE_UPLOADED = "File Uploaded"
 
+STATUS_IMAGE_UNANNOTATED = "Unannotated"
+STATUS_IMAGE_ANNOTATED = "Annotated"
+STATUS_IMAGE_PARTIALLY_ANNOTATED = "Annotated"
 
+IMAGE_FILE_EXTN = {
+    'png': 'PNG',
+    'PNG': 'PNG',
+    'jpg': 'JPG',
+    'JPG': 'JPG',
+    'JPEG': 'JPEG',
+    'jpeg': 'JPEG'
+}

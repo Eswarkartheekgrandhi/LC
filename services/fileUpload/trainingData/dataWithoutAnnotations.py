@@ -3,8 +3,10 @@ from datetime import datetime
 
 from werkzeug.utils import secure_filename
 
-from constants.mongoConstants import COLLECTION_FILE_UPLOAD_COUNTER, DB_VISUAL_INSPECTION, COLLECTION_FILE_UPLOAD_RECORD
-from constants.uploadFileConstants import INITIAL_UPLOAD_COUNTER, DATA_DIRECTORY, STATUS_FILE_UPLOADED
+from constants.mongoConstants import COLLECTION_FILE_UPLOAD_COUNTER, DB_VISUAL_INSPECTION, \
+    COLLECTION_FILE_UPLOAD_REQUEST_DETAILS, COLLECTION_IMAGE_RECORDS
+from constants.uploadFileConstants import INITIAL_UPLOAD_COUNTER, DATA_DIRECTORY, STATUS_FILE_UPLOADED, \
+    STATUS_IMAGE_UNANNOTATED
 from repository.mongoRepository import getData, updateData, insertData
 
 
@@ -15,7 +17,7 @@ def uploadTrainingDataWithoutAnnotations(data):
     requestID = getFileUploadIDCounter("train")
     saveRecord(requestID, label, user, "train")
     imageFileDirectory = getFileDirectory("trainImage", requestID)
-    saveFileToDirectory(imageList, imageFileDirectory)
+    saveFileToDirectory(imageList, imageFileDirectory, requestID)
     return requestID
 
 
@@ -56,24 +58,29 @@ def saveRecord(requestID, label, user, uploadTask):
         'datetime': datetime.now(),
         'label': label,
         'user': user,
-        'status': STATUS_FILE_UPLOADED
+        'status': STATUS_FILE_UPLOADED,
+        'annotations': []
     }
-    collectionName = COLLECTION_FILE_UPLOAD_RECORD[uploadTask]
+    collectionName = COLLECTION_FILE_UPLOAD_REQUEST_DETAILS
     insertData(recordDict, collectionName, DB_VISUAL_INSPECTION)
 
 
-def saveFileToDirectory(fileList, fileDirectory):
-    for fileElement in fileList:
+def saveFileToDirectory(fileList, fileDirectory, requestID):
+    for i in range(len(fileList)):
+        fileElement = fileList[i]
         filename = fileElement.filename
         filename = secure_filename(filename)
         destination = os.path.join(fileDirectory, filename)
+        saveFileRecordToMongo(filename, requestID, i + 1, destination)
         fileElement.save(destination)
 
 
-def saveFileRecordToMongo(filename, trnKey, fileID):
+def saveFileRecordToMongo(filename, requestID, fileID, destination):
     fileRecordData = {
-        "filename" : filename,
-        "trnKey" : trnKey,
-        "fileID" : "IMG_{}_{}".format(str(trnKey),str(fileID))
+        "filename": filename,
+        "requestID": requestID,
+        "fileID": "IMG_{}_{}".format(str(requestID), str(fileID)),
+        "destination": destination,
+        "annotationStatus": STATUS_IMAGE_UNANNOTATED
     }
-    insertData(fileRecordData, )
+    insertData(fileRecordData, COLLECTION_IMAGE_RECORDS, DB_VISUAL_INSPECTION)
