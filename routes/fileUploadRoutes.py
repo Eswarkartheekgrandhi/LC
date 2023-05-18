@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import request
 
 from services.fileUpload.trainingData.dataWithAnnotations import uploadTrainingDataWithAnnotations
+from services.fileUpload.trainingData.dataWithoutAnnotations import uploadTrainingDataWithoutAnnotations
 
 fileUploadRoutesBP = Blueprint('fileUploadRoutesBP', __name__)
 
@@ -14,6 +15,13 @@ def uploadTrainingDataWithAnnotationRoute():
             'message': "Your Training has been successfully Uploaded with Request ID {}".format(str(uploadID))}
 
 
+@fileUploadRoutesBP.route('/image/upload/trainingDataWithoutAnnotations', methods=['POST'])
+def uploadTrainingDataWithoutAnnotationRoute():
+    uploadID = uploadTrainingDataWithoutAnnotations(request)
+    return {'requestID': format(str(uploadID)),
+            'message': "Your Training has been successfully Uploaded with Request ID {}".format(str(uploadID))}
+
+
 @fileUploadRoutesBP.route("/image/upload/testingData", methods=['POST'])
 def uploadTestingDataWithAnnotationRoute():
     """ uploadTask = Test or Train """
@@ -21,4 +29,3 @@ def uploadTestingDataWithAnnotationRoute():
     # response = requests.post(ENDPOINT_START_TRAINING, json=startTrainingAPIData)
     return {'requestID': format(str(uploadID)),
             'message': "Your Training has been successfully Uploaded with Request ID {}".format(str(uploadID))}
-

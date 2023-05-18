@@ -20,10 +20,8 @@ def registerUser(data):
         'email': email,
         'domain': domain,
         'password': hashedPassword,
-        'organizationName' : organizationName,
+        'organizationName': organizationName,
         'registered on': datetime.now()
     }
     insertData(userDetails, COLLECTION_USER, DB_VISUAL_INSPECTION)
     return userSuccessfullyRegisteredJsonResponse
-
-

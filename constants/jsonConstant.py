@@ -1,5 +1,5 @@
 userAlreadyExistJsonResponse = {'statusCode': 300,
-                                'message': 'User already exist with the username'}
+                                'message': 'User already exist with the email'}
 
 userSuccessfullyRegisteredJsonResponse = {'statusCode': 200,
                                           'message': 'Successfully Registered'}
