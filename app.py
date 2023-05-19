@@ -9,7 +9,7 @@ from routes.fileUploadRoutes import fileUploadRoutesBP
 from routes.reportRoutes import reportRoutesBP
 from routes.userManagementRoutes import userManagementRoutesBP
 from services.fileUpload.sftpConnection import *
-from services.imageManagement.getThumbnailImages import *
+from services.imageManagement.getUploadedImage import *
 
 
 logging.basicConfig(level=logging.INFO)
