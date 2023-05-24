@@ -82,6 +82,6 @@ def saveFileRecordToMongo(filename, requestID, fileID, destination):
         "fileID": "IMG_{}_{}".format(str(requestID), str(fileID)),
         "destination": destination,
         "annotationStatus": STATUS_IMAGE_UNANNOTATED,
-        "annotations" : []
+        "annotations": []
     }
     insertData(fileRecordData, COLLECTION_IMAGE_RECORDS, DB_VISUAL_INSPECTION)
