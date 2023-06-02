@@ -31,7 +31,8 @@ def createThumbnail(imagePath, imageType, size=(128, 128)):
     with Image.open(imagePath) as img:
         img.thumbnail(size)
         byte_io = BytesIO()
-        img.save(byte_io, IMAGE_FILE_EXTN[imageType])
+        print(IMAGE_FILE_EXTN[imageType])
+        img.save(byte_io, IMAGE_FILE_EXTN['png'])
         byte_io.seek(0)
         byte_arr = byte_io.getvalue()
         base64_encoded_result = base64.b64encode(byte_arr).decode('ascii')

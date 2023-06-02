@@ -27,7 +27,7 @@ app.register_blueprint(annotationRoutesBP)
 
 @app.route('/status', methods=['GET'])
 def getStatus():
-    return "Visual Inspection API's are runningggggg"
+    return "Visual Inspection APIs are running"
 
 
 if __name__ == "__main__":

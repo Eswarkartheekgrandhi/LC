@@ -10,6 +10,7 @@ from repository.mongoRepository import getData, updateData, insertData
 
 def uploadTrainingDataWithAnnotations(data):
     imageList = data.files.getlist("imageFiles")
+    imageList = data.files.getlist("imageFiles")
     annotationList = data.files.getlist("annotationFiles")
     dataYamlFileList = data.files.getlist("dataYamlFile")
     requestID = getFileUploadIDCounter("train")

@@ -4,9 +4,11 @@ services:
  web:
   build:
    context: .
+  expose:
+    - 5000
   ports:
-  - 8000:5000
+   - 8000:5000
   volumes:
-  - .:/app
+   - .:/app
 
 

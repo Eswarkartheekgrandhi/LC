@@ -19,8 +19,8 @@ STATUS_IMAGE_PARTIALLY_ANNOTATED = "Annotated"
 IMAGE_FILE_EXTN = {
     'png': 'PNG',
     'PNG': 'PNG',
-    'jpg': 'JPG',
-    'JPG': 'JPG',
+    'jpg': 'jpg',
+    'JPG': 'jpg',
     'JPEG': 'JPEG',
     'jpeg': 'JPEG'
 }
