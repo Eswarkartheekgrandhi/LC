@@ -8,8 +8,10 @@ from routes.imageManagementRoutes import imageManagementRoutesBP
 from routes.modelRoutes import modelRoutesBP
 from routes.fileUploadRoutes import fileUploadRoutesBP
 from routes.reportRoutes import reportRoutesBP
+from routes.trainModelRoutes import trainModelRoutesBP
 from routes.userManagementRoutes import userManagementRoutesBP
 from services.fileUpload.sftpConnection import *
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -23,6 +25,7 @@ app.register_blueprint(reportRoutesBP)
 app.register_blueprint(userManagementRoutesBP)
 app.register_blueprint(imageManagementRoutesBP)
 app.register_blueprint(annotationRoutesBP)
+app.register_blueprint(trainModelRoutesBP)
 
 
 @app.route('/status', methods=['GET'])

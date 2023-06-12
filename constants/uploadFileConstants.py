@@ -7,7 +7,8 @@ DATA_DIRECTORY = {
 
 INITIAL_UPLOAD_COUNTER = {
     'train': 10000,
-    'test': 20000
+    'test': 20000,
+    "trainModelRequest": 30000
 }
 
 STATUS_FILE_UPLOADED = "File Uploaded"

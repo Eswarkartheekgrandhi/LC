@@ -49,6 +49,7 @@ def getFileDirectory(uploadTask, requestID):
         os.makedirs(fileDirectory)
     except:
         pass
+    COLLECTION_USER = 'userDetails'
     return fileDirectory
 
 
