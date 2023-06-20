@@ -2,7 +2,8 @@ DATA_DIRECTORY = {
     "trainImage": "./Data/Train Data/{}/Image",
     "trainAnnotation": "./Data/Train Data/{}/Annotations",
     "dataYamlFile": "./Data/Train Data/{}",
-    "test": "./Data/Test Data/{}"
+    "test": "./Data/Test Data/{}",
+    "trainModel": "./Data/Model Training/{}/train"
 }
 
 INITIAL_UPLOAD_COUNTER = {

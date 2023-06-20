@@ -10,8 +10,7 @@ from routes.fileUploadRoutes import fileUploadRoutesBP
 from routes.reportRoutes import reportRoutesBP
 from routes.trainModelRoutes import trainModelRoutesBP
 from routes.userManagementRoutes import userManagementRoutesBP
-from services.fileUpload.sftpConnection import *
-
+from services.trainModel.getTrainedModelDetails import getTrainedModelDetails
 
 logging.basicConfig(level=logging.INFO)
 
@@ -34,6 +33,6 @@ def getStatus():
 
 
 if __name__ == "__main__":
-    app.secret_key = os.urandom(24)
+    #app.secret_key = os.urandom(24)
     # app.run(debug=True,host="0.0.0.0",use_reloader=False)
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
