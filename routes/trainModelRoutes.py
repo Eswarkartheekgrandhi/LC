@@ -1,3 +1,4 @@
+from services.authentication.tokenRequiredDecorator import tokenRequired
 from services.trainModel.getTrainedModelDetails import getTrainedModelDetails
 from services.trainModel.insertTrainModelRequest import insertTrainModelRequest
 
@@ -8,13 +9,15 @@ trainModelRoutesBP = Blueprint('trainModelRoutesBP', __name__)
 
 
 @trainModelRoutesBP.route("/trainModelRequest", methods=['POST'])
-def setAnnotationRoutes():
+@tokenRequired
+def setAnnotationRoutes(user):
     data = request.get_json()
-    insertTrainModelRequest(data)
+    insertTrainModelRequest(data, user)
     return "Model Training Request has been Submitted"
 
 
 @trainModelRoutesBP.route("/getModelDetails", methods=["POST"])
-def getModelDetailsBP():
-    data = getTrainedModelDetails()
+@tokenRequired
+def getModelDetailsBP(user):
+    data = getTrainedModelDetails(user)
     return {"responseData": data}

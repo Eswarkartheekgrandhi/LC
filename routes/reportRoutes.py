@@ -5,9 +5,9 @@ from services.reports.getmodelUploadTestResultReport import getResultData, getRe
 reportRoutesBP = Blueprint('reportRoutesBP', __name__)
 
 
-@reportRoutesBP.route("/reports/getTestingResults", methods=['POST'])
+@reportRoutesBP.route("/reports/getDetectionResults", methods=['POST'])
 def getTestingResultsRoute():
-    testUploadID = request.form.get("testUploadID")
+    testUploadID = request.json.get("testUploadID")
     excelReport = getReport(testUploadID)
     excelReport.seek(0)
     return send_file(excelReport, download_name='Model Test Report.xlsx')

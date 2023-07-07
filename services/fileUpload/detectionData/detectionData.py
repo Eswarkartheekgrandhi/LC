@@ -8,15 +8,17 @@ from constants.mongoConstants import COLLECTION_FILE_UPLOAD_COUNTER, DB_VISUAL_I
 from constants.uploadFileConstants import INITIAL_UPLOAD_COUNTER, DATA_DIRECTORY, STATUS_FILE_UPLOADED, \
     STATUS_IMAGE_UNANNOTATED
 from repository.mongoRepository import getData, updateData, insertData
+from services.detection.startDetection import startDetection
 
 
-def uploadTrainingDataWithoutAnnotations(data, user):
+def uploadDetectionData(data, user):
     imageList = data.files.getlist("imageFiles")
-    label = data.form['label']
-    requestID = getFileUploadIDCounter("train")
-    saveRecord(requestID, label, user, "train")
-    imageFileDirectory = getFileDirectory("trainImage", requestID)
+    rulesList = data.form["rulesList"].split(",")
+    requestID = getFileUploadIDCounter("detectionDataUpload")
+    imageFileDirectory = getFileDirectory("detectionData", requestID)
     saveFileToDirectory(imageList, imageFileDirectory, requestID)
+    saveRecord(requestID, rulesList, user)
+    startDetection(requestID)
     return requestID
 
 
@@ -48,19 +50,17 @@ def getFileDirectory(uploadTask, requestID):
         os.makedirs(fileDirectory)
     except:
         pass
-    COLLECTION_USER = 'userDetails'
     return fileDirectory
 
 
-def saveRecord(requestID, label, user, uploadTask):
+def saveRecord(requestID, rulesList, user):
     recordDict = {
         'requestID': requestID,
         'datetime': datetime.now(),
-        'label': label,
         'user': user,
         'status': STATUS_FILE_UPLOADED,
-        'dataType' : "trainingData",
-        'annotations': []
+        'dataType': "detectionData",
+        'rulesList': rulesList
     }
     collectionName = COLLECTION_FILE_UPLOAD_REQUEST_DETAILS
     insertData(recordDict, collectionName, DB_VISUAL_INSPECTION)
@@ -81,8 +81,6 @@ def saveFileRecordToMongo(filename, requestID, fileID, destination):
         "filename": filename,
         "requestID": requestID,
         "fileID": "IMG_{}_{}".format(str(requestID), str(fileID)),
-        "destination": destination,
-        "annotationStatus": STATUS_IMAGE_UNANNOTATED,
-        "annotations": []
+        "destination": destination
     }
     insertData(fileRecordData, COLLECTION_IMAGE_RECORDS, DB_VISUAL_INSPECTION)

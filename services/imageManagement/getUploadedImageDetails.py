@@ -7,8 +7,10 @@ from constants.uploadFileConstants import STATUS_IMAGE_UNANNOTATED, STATUS_IMAGE
 from repository.mongoRepository import getData
 
 
-def getUploadedImageData(user):
-    uploadedDataDF = pd.DataFrame(getData({'user': user}, COLLECTION_FILE_UPLOAD_REQUEST_DETAILS, DB_VISUAL_INSPECTION))
+def getUploadedTrainingImageData(user):
+    uploadedDataDF = pd.DataFrame(
+        getData({'user': user, 'dataType': 'trainingData'}, COLLECTION_FILE_UPLOAD_REQUEST_DETAILS,
+                DB_VISUAL_INSPECTION))
     if len(uploadedDataDF) == 0:
         return "No Images Uploaded by the User"
     UploadedImageDataDF = pd.DataFrame()
@@ -32,14 +34,24 @@ def getUploadedImageData(user):
         else:
             status = STATUS_IMAGE_PARTIALLY_ANNOTATED
         UploadedImageDataDict = {
-            'requestID' : requestID,
-            'Upload DateTime' : uploadedDateTime,
-            'Label' : label,
-            'Total Images' : totalUploadedImages,
-            'Total Annotated Image' : uploadedAnnotatedImageLen,
+            'requestID': requestID,
+            'Upload DateTime': uploadedDateTime,
+            'Label': label,
+            'Total Images': totalUploadedImages,
+            'Total Annotated Image': uploadedAnnotatedImageLen,
             'Total Unannotated Image': uploadedUnannotatedImageLen,
-            'Status' : status
+            'Status': status
         }
         UploadedImageDataDF = UploadedImageDataDF.append(UploadedImageDataDict, ignore_index=True)
     print(UploadedImageDataDF)
     return UploadedImageDataDF.to_dict('records')
+
+
+def getUploadedDetectionImageData(user):
+    uploadedDataDF = pd.DataFrame(
+        getData({'user': user, 'dataType': 'detectionData'}, COLLECTION_FILE_UPLOAD_REQUEST_DETAILS, DB_VISUAL_INSPECTION))
+    if len(uploadedDataDF) == 0:
+        return "No Images Uploaded by the User"
+    uploadedDataDF = uploadedDataDF.drop(['_id'], axis=1)
+    uploadedDataDF = uploadedDataDF.fillna("Data Not Available")
+    return uploadedDataDF.to_dict('records')

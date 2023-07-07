@@ -1,3 +1,3 @@
-URL_MODEL_CONTROLLER = "http://127.0.0.1:5001/{}"
+URL_MODEL_CONTROLLER = "http://10.2.8.173:5001/{}"
 
-ENDPOINT_START_TRAINING = URL_MODEL_CONTROLLER.format("models/startTestingModel")
+ENDPOINT_START_DETECTION = URL_MODEL_CONTROLLER.format("/models/startDetection")
