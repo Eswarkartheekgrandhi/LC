@@ -11,7 +11,8 @@ from routes.reportRoutes import reportRoutesBP
 from routes.ruleManagementRoutes import ruleManagementRoutesBP
 from routes.trainModelRoutes import trainModelRoutesBP
 from routes.userManagementRoutes import userManagementRoutesBP
-from services.detection.startDetection import startDetection
+from services.domain.getDomainDetails import getDomainDetails
+from services.reports.getDeployedRulesResult import getRulesDescription
 
 logging.basicConfig(level=logging.INFO)
 

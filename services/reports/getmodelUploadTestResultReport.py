@@ -68,8 +68,7 @@ def makeExcelFile(detailedReportDataDF, quickReportDataDF, testUploadID):
             worksheetDetailedReport = writer.sheets[sheetName]
 
             worksheetDetailedReport.insert_image("A{}".format(str(rowCounter+20)),
-                                                 "/home/admin/Desktop/Data/Test Data/{}/Results/{}".format(testUploadID,
-                                                                                                           imageName),
+                                                 DATA_DIRECTORY['detectionData'].format(testUploadID) + "/Results/{}".format(imageName),
                                                  {'x_scale': 0.4, 'y_scale': 0.4})
 
             worksheetDetailedReport.set_column("A:C", width=25)
